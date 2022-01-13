@@ -1,5 +1,13 @@
 # include "../inc/philosophers.h"
 
+static void log(t_shared *shared, int philo_id, char *event)
+{
+    double   fresh;
+    gettimeofday(shared->timestamp, NULL);
+    fresh = shared->timestamp->tv_sec * 1000000 + shared->timestamp->tv_usec;
+    printf("%f philo %d %s", (fresh - shared->start) / 1000, philo_id, event);
+}
+
 static int     waiter(t_shared *shared, int forks_to_take[2])
 {
     int fork_status;
@@ -14,8 +22,8 @@ static int     waiter(t_shared *shared, int forks_to_take[2])
 
 void    eat(t_shared *shared, int philo_id, int forks_to_take[2])
 {
-    printf("PHILO%d_IS_EATING | TAKEN FORKS : %d and %d\n", philo_id, forks_to_take[0], forks_to_take[1]);
-    sleep(1);
+    log(shared, philo_id, "HAS STARTED EATING\n");
+    usleep(100000);
 }
 
 void    handle_forks(t_shared *shared, int forks_to_take[2], int task)
@@ -47,9 +55,9 @@ void    handle_forks(t_shared *shared, int forks_to_take[2], int task)
 
 void    *live_life(void *arg)
 {
-    t_shared *shared;
-    int     philo_id;
-    int     forks_to_take[2];
+    t_shared        *shared;
+    int             philo_id;
+    int             forks_to_take[2];
 
     shared = arg;
     increase_philo_id(shared, &philo_id);
@@ -63,7 +71,9 @@ void    *live_life(void *arg)
         handle_forks(shared, forks_to_take, PICK_UP);
         eat(shared, philo_id, forks_to_take);
         handle_forks(shared, forks_to_take, PUT_DOWN);
-        sleep(2);
+        log(shared, philo_id, "HAS STARTED SLEEPING\n");
+        usleep(200000);
+        log(shared, philo_id, "HAS STARTED THINKING\n");
     }
     return (NULL);
 }

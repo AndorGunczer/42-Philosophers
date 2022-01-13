@@ -4,6 +4,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <pthread.h>
+# include <sys/time.h>
 
 # include <stdlib.h>
 
@@ -25,6 +26,8 @@ typedef struct s_shared {
     int time_to_eat;
     int time_to_sleep;
     int number_of_times_each_philosopher_must_eat;
+    struct timeval  *timestamp;
+    double   start;
 }   t_shared;
 
 /*  utlis.c */
