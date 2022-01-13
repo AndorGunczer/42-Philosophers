@@ -20,18 +20,16 @@ void    take_forks(t_shared *shared, int philo_id, int forks_to_take[2])
     {
         pthread_mutex_lock(&shared->mutex_waiter);
         fork_status = waiter(shared, philo_id, forks_to_take);
-        pthread_mutex_unlock(&shared->mutex_waiter);
-    }
-        pthread_mutex_lock(&shared->mutex_forks);
         if (fork_status == AVAILABLE)
         {
             shared->fork[forks_to_take[0]] = 0;
             shared->fork[forks_to_take[1]] = 0;
         }
-        pthread_mutex_unlock(&shared->mutex_forks);
-    printf("PHILO%d_IS_EATING\n", philo_id);
+        pthread_mutex_unlock(&shared->mutex_waiter);
+    }
+    printf("PHILO%d_IS_EATING | TAKEN FORKS : %d and %d\n", philo_id, forks_to_take[0], forks_to_take[1]);
     // usleep(shared->time_to_eat);
-    sleep(3);
+    sleep(1);
     // while (1)
     // {
     //     if (...)
