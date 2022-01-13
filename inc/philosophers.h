@@ -10,6 +10,9 @@
 # define TAKEN 0
 # define AVAILABLE 1
 
+# define PICK_UP 0
+# define PUT_DOWN 1
+
 typedef struct s_shared {
     int *fork;
     int death;

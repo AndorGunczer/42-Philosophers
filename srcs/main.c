@@ -1,7 +1,5 @@
 # include "../inc/philosophers.h"
 
-// int     waiter()
-
 void    increase_philo_id(t_shared *shared, int *philo_id)
 {
     pthread_mutex_lock(&shared->mutex_philo_id);
@@ -37,9 +35,9 @@ int     init_shared_data(t_shared *shared_data, char **argv)
 
 int     main(int argc, char **argv)
 {
-    pthread_t   *threads;
-    t_shared    shared_data;
     int         i;
+    t_shared    shared_data;
+    pthread_t   *threads;
 
     i = 1;
     init_shared_data(&shared_data, argv);
