@@ -26,7 +26,7 @@ void    eat(t_shared *shared, int philo_id, int forks_to_take[2])
     usleep(100000);
 }
 
-void    handle_forks(t_shared *shared, int forks_to_take[2], int task)
+void    handle_forks(t_shared *shared, int philo_id, int forks_to_take[2], int task)
 {
     int fork_status;
 
@@ -39,7 +39,9 @@ void    handle_forks(t_shared *shared, int forks_to_take[2], int task)
             if (fork_status == AVAILABLE)
             {
                 shared->fork[forks_to_take[0]] = 0;
+                log(shared, philo_id, "HAS TAKEN A FORK\n");
                 shared->fork[forks_to_take[1]] = 0;
+                log(shared, philo_id, "HAS TAKEN A FORK\n");
             }
             pthread_mutex_unlock(&shared->mutex_waiter);
         }
@@ -68,9 +70,9 @@ void    *live_life(void *arg)
         forks_to_take[1] = philo_id;
     while (1)
     {
-        handle_forks(shared, forks_to_take, PICK_UP);
+        handle_forks(shared, philo_id, forks_to_take, PICK_UP);
         eat(shared, philo_id, forks_to_take);
-        handle_forks(shared, forks_to_take, PUT_DOWN);
+        handle_forks(shared, philo_id, forks_to_take, PUT_DOWN);
         log(shared, philo_id, "HAS STARTED SLEEPING\n");
         usleep(200000);
         log(shared, philo_id, "HAS STARTED THINKING\n");
