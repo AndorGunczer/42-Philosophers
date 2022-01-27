@@ -18,9 +18,11 @@ int     init_shared_data(t_shared *shared_data, char **argv)
     pthread_mutex_init(&shared_data->mutex_philo_id, NULL);
     pthread_mutex_init(&shared_data->mutex_forks, NULL);
     pthread_mutex_init(&shared_data->mutex_waiter, NULL);
+	pthread_mutex_init(&shared_data->mutex_death, NULL);
+	pthread_mutex_init(&shared_data->mutex_print, NULL);
     shared_data->number_of_philosophers = ft_atoi(argv[1]);
-	shared_data->time_to_eat = 400;
-	shared_data->time_to_sleep = 200;
+	shared_data->time_to_eat = 40;
+	shared_data->time_to_sleep = 20;
     // shared_data->time_to_die = ft_atoi(argv[2] * 1000);
     // shared_data->time_to_eat = ft_atoi(argv[3] * 1000);
     // shared_data->time_to_sleep = ft_atoi(argv[4] * 1000);

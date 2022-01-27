@@ -21,6 +21,8 @@ typedef struct s_shared {
     pthread_mutex_t mutex_philo_id;
     pthread_mutex_t mutex_forks;
     pthread_mutex_t mutex_waiter;
+	pthread_mutex_t mutex_death;
+	pthread_mutex_t	mutex_print;
     int number_of_philosophers;
     int time_to_die;
     int time_to_eat;
@@ -30,8 +32,18 @@ typedef struct s_shared {
     double   start;
 }   t_shared;
 
+typedef struct s_time {
+	struct timeval	last_meal;
+	struct timeval	time_now_death;
+	struct timeval	time_now_occupation;
+	struct timeval	occupation_start;
+	// struct timeval	private_timestamp;
+}	t_time;
+
 /*  utlis.c */
-int	ft_atoi(const char *str);
+int		ft_atoi(const char *str);
+void	ft_log(t_shared *shared, int philo_id, char *event);
+int     waiter(t_shared *shared, int forks_to_take[2]);
 
 /*  philo.c */
 void *live_life(void *arg);
