@@ -42,8 +42,9 @@ typedef struct s_time {
 
 /*  utlis.c */
 int		ft_atoi(const char *str);
-void	ft_log(t_shared *shared, int philo_id, char *event);
+int ft_log(t_shared *shared, int philo_id, char *event, int exception);
 int     waiter(t_shared *shared, int forks_to_take[2]);
+void	time_init(t_time *time);
 
 /*  philo.c */
 void *live_life(void *arg);
