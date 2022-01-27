@@ -28,7 +28,7 @@ typedef struct s_shared {
     int time_to_eat;
     int time_to_sleep;
     int number_of_times_each_philosopher_must_eat;
-    struct timeval  *timestamp;
+    struct timeval  timestamp;
     double   start;
 }   t_shared;
 

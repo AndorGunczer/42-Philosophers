@@ -26,8 +26,8 @@ int ft_log(t_shared *shared, int philo_id, char *event, int exception)
     double   fresh;
 
 	pthread_mutex_lock(&shared->mutex_print);
-    gettimeofday(shared->timestamp, NULL);
-    fresh = shared->timestamp->tv_sec * 1000 + shared->timestamp->tv_usec / 1000;
+    gettimeofday(&shared->timestamp, NULL);
+    fresh = shared->timestamp.tv_sec * 1000 + shared->timestamp.tv_usec / 1000;
     if (shared->death == 0 || exception == 1)
 		printf("%f philo %d %s", (fresh - shared->start) / 1000, philo_id, event);
 	pthread_mutex_unlock(&shared->mutex_print);

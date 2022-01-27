@@ -47,8 +47,8 @@ int     main(int argc, char **argv)
     i = 1;
     init_shared_data(&shared_data, argv);
     threads = malloc(shared_data.number_of_philosophers * sizeof(pthread_t));
-    gettimeofday(shared_data.timestamp, NULL);
-    shared_data.start = (shared_data.timestamp->tv_sec * 1000) + (shared_data.timestamp->tv_usec / 1000);
+    gettimeofday(&shared_data.timestamp, NULL);
+    shared_data.start = (shared_data.timestamp.tv_sec * 1000) + (shared_data.timestamp.tv_usec / 1000);
     while (i <= shared_data.number_of_philosophers)
     {
         pthread_create(&threads[i - 1], NULL, live_life, &shared_data);

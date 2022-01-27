@@ -18,7 +18,7 @@ int		check_other_dead(t_shared *shared)
 int		is_dead(t_time *time, t_shared *shared, int philo_id)
 {
 	gettimeofday(&(time->time_now_death), NULL);
-	if (((time->time_now_death.tv_sec * 1000 + time->time_now_death.tv_usec / 1000) - (time->last_meal.tv_sec * 1000 + time->last_meal.tv_usec / 1000) > shared->time_to_die))
+	if (((time->time_now_death.tv_sec * 1000 + time->time_now_death.tv_usec / 1000) - (time->last_meal.tv_sec * 1000 + time->last_meal.tv_usec / 1000) > shared->time_to_die) && shared->death != 1)
 	{
 		// pthread_mutex_lock(&shared->mutex_death);
 		shared->death = 1;
@@ -76,6 +76,7 @@ void    handle_forks(t_shared *shared, int philo_id, int forks_to_take[2], int t
         {
 			// if (is_dead(time, shared))
 			// 	return ;
+			printf("HELLO");
             pthread_mutex_lock(&shared->mutex_waiter);
             fork_status = waiter(shared, forks_to_take);
             if (fork_status == AVAILABLE)
