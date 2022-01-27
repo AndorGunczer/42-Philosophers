@@ -20,10 +20,28 @@ static int     waiter(t_shared *shared, int forks_to_take[2])
     return (fork_status);
 }
 
-void    eat(t_shared *shared, int philo_id, int forks_to_take[2])
+void    eat(t_shared *shared, int philo_id, int forks_to_take[2], struct timeval *start, struct timeval *now)
 {
+	gettimeofday(start, NULL);
+	gettimeofday(now, NULL);
     log(shared, philo_id, "HAS STARTED EATING\n");
-    usleep(100000);
+	while ((now->tv_sec * 1000000 + now->tv_usec) - (start->tv_sec * 1000000 +  start->tv_usec) < shared->time_to_eat)
+	{
+		gettimeofday(now, NULL);
+	}
+	// printf("%ld\n", now->tv_sec - 10000000000);
+    // usleep(100000);
+}
+
+void	rest(t_shared *shared, int philo_id, int forks_to_take[2], struct timeval *start, struct timeval *now)
+{
+	gettimeofday(start, NULL);
+	gettimeofday(now, NULL);
+    log(shared, philo_id, "HAS STARTED SLEEPING\n");
+	while ((now->tv_sec * 1000000 + now->tv_usec) - (start->tv_sec * 1000000 +  start->tv_usec) < shared->time_to_sleep)
+	{
+		gettimeofday(now, NULL);
+	}
 }
 
 void    handle_forks(t_shared *shared, int philo_id, int forks_to_take[2], int task)
@@ -60,6 +78,9 @@ void    *live_life(void *arg)
     t_shared        *shared;
     int             philo_id;
     int             forks_to_take[2];
+	struct timeval	time_now;
+	struct timeval	time_start;
+
 
     shared = arg;
     increase_philo_id(shared, &philo_id);
@@ -71,10 +92,9 @@ void    *live_life(void *arg)
     while (1)
     {
         handle_forks(shared, philo_id, forks_to_take, PICK_UP);
-        eat(shared, philo_id, forks_to_take);
+        eat(shared, philo_id, forks_to_take, &time_start, &time_now);
         handle_forks(shared, philo_id, forks_to_take, PUT_DOWN);
-        log(shared, philo_id, "HAS STARTED SLEEPING\n");
-        usleep(200000);
+        rest(shared, philo_id, forks_to_take, &time_start, &time_now);
         log(shared, philo_id, "HAS STARTED THINKING\n");
     }
     return (NULL);
