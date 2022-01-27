@@ -19,8 +19,8 @@ int     init_shared_data(t_shared *shared_data, char **argv)
     pthread_mutex_init(&shared_data->mutex_forks, NULL);
     pthread_mutex_init(&shared_data->mutex_waiter, NULL);
     shared_data->number_of_philosophers = ft_atoi(argv[1]);
-	shared_data->time_to_eat = 4000;
-	shared_data->time_to_sleep = 200000;
+	shared_data->time_to_eat = 400;
+	shared_data->time_to_sleep = 200;
     // shared_data->time_to_die = ft_atoi(argv[2] * 1000);
     // shared_data->time_to_eat = ft_atoi(argv[3] * 1000);
     // shared_data->time_to_sleep = ft_atoi(argv[4] * 1000);
@@ -45,7 +45,7 @@ int     main(int argc, char **argv)
     init_shared_data(&shared_data, argv);
     threads = malloc(shared_data.number_of_philosophers * sizeof(pthread_t));
     gettimeofday(shared_data.timestamp, NULL);
-    shared_data.start = shared_data.timestamp->tv_sec * 1000000 + shared_data.timestamp->tv_usec;
+    shared_data.start = (shared_data.timestamp->tv_sec * 1000) + (shared_data.timestamp->tv_usec / 1000);
     while (i <= shared_data.number_of_philosophers)
     {
         pthread_create(&threads[i - 1], NULL, live_life, &shared_data);

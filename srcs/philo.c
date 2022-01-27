@@ -4,7 +4,7 @@ static void log(t_shared *shared, int philo_id, char *event)
 {
     double   fresh;
     gettimeofday(shared->timestamp, NULL);
-    fresh = shared->timestamp->tv_sec * 1000000 + shared->timestamp->tv_usec;
+    fresh = shared->timestamp->tv_sec * 1000 + shared->timestamp->tv_usec / 1000;
     printf("%f philo %d %s", (fresh - shared->start) / 1000, philo_id, event);
 }
 
@@ -25,7 +25,7 @@ void    eat(t_shared *shared, int philo_id, int forks_to_take[2], struct timeval
 	gettimeofday(start, NULL);
 	gettimeofday(now, NULL);
     log(shared, philo_id, "HAS STARTED EATING\n");
-	while ((now->tv_sec * 1000000 + now->tv_usec) - (start->tv_sec * 1000000 +  start->tv_usec) < shared->time_to_eat)
+	while ((now->tv_sec * 1000 + now->tv_usec / 1000) - (start->tv_sec * 1000 +  start->tv_usec / 1000) < shared->time_to_eat)
 	{
 		gettimeofday(now, NULL);
 	}
@@ -38,7 +38,7 @@ void	rest(t_shared *shared, int philo_id, int forks_to_take[2], struct timeval *
 	gettimeofday(start, NULL);
 	gettimeofday(now, NULL);
     log(shared, philo_id, "HAS STARTED SLEEPING\n");
-	while ((now->tv_sec * 1000000 + now->tv_usec) - (start->tv_sec * 1000000 +  start->tv_usec) < shared->time_to_sleep)
+	while ((now->tv_sec * 1000 + now->tv_usec / 1000) - (start->tv_sec * 1000 +  start->tv_usec / 1000) < shared->time_to_sleep)
 	{
 		gettimeofday(now, NULL);
 	}
