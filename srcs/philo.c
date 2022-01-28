@@ -6,18 +6,21 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:39 by agunczer          #+#    #+#             */
-/*   Updated: 2022/01/28 14:33:49 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/01/28 16:31:19 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/philosophers.h"
+#include "../inc/philosophers.h"
 
 void	eat(t_shared *shared, int philo_id, int forks_to_take[2], t_time *time)
 {
 	gettimeofday(&(time->occupation_start), NULL);
 	gettimeofday(&(time->time_now_occupation), NULL);
 	ft_log(shared, philo_id, "HAS STARTED EATING\n", 0);
-	while ((time->time_now_occupation.tv_sec * 1000 + time->time_now_occupation.tv_usec / 1000) - (time->occupation_start.tv_sec * 1000 + time->occupation_start.tv_usec / 1000) < shared->time_to_eat)
+	while ((time->time_now_occupation.tv_sec * 1000
+			+ time->time_now_occupation.tv_usec / 1000)
+		- (time->occupation_start.tv_sec * 1000
+			+ time->occupation_start.tv_usec / 1000) < shared->time_to_eat)
 	{
 		gettimeofday(&(time->time_now_occupation), NULL);
 	}
@@ -28,12 +31,15 @@ void	rest(t_shared *shared, int philo_id, int forks_to_take[2], t_time *time)
 	gettimeofday(&(time->occupation_start), NULL);
 	gettimeofday(&(time->time_now_occupation), NULL);
 	ft_log(shared, philo_id, "HAS STARTED SLEEPING\n", 0);
-	while ((time->time_now_occupation.tv_sec * 1000 + time->time_now_occupation.tv_usec / 1000) - (time->occupation_start.tv_sec * 1000 + time->occupation_start.tv_usec / 1000) < shared->time_to_sleep)
+	while ((time->time_now_occupation.tv_sec * 1000
+			+ time->time_now_occupation.tv_usec / 1000)
+		- (time->occupation_start.tv_sec * 1000 + time->occupation_start.tv_usec
+			/ 1000) < shared->time_to_sleep)
 	{
 		pthread_mutex_lock(&shared->mutex_death);
 		if (is_dead(time, shared, philo_id))
 		{
-			pthread_mutex_unlock(&shared->mutex_death);	
+			pthread_mutex_unlock(&shared->mutex_death);
 			return ;
 		}
 		pthread_mutex_unlock(&shared->mutex_death);
@@ -41,9 +47,10 @@ void	rest(t_shared *shared, int philo_id, int forks_to_take[2], t_time *time)
 	}
 }
 
-void	tasking(t_shared *shared, int philo_id, int forks_to_take[2], t_time *time)
+void	tasking(t_shared *shared, int philo_id, int forks_to_take[2],
+				t_time *time)
 {
-	while (1)
+	while (1 && time->number_of_meals != 0)
 	{
 		if (check_other_dead(shared))
 			break ;
@@ -55,6 +62,7 @@ void	tasking(t_shared *shared, int philo_id, int forks_to_take[2], t_time *time)
 		{
 			gettimeofday(&(time->last_meal), NULL);
 			eat(shared, philo_id, forks_to_take, time);
+			time->number_of_meals--;
 		}
 		handle_forks_down(shared, philo_id, forks_to_take, time);
 		if (check_other_dead(shared))
@@ -72,7 +80,6 @@ void	*live_life(void *arg)
 	int			forks_to_take[2];
 	t_time		time;
 
-
 	shared = arg;
 	increase_philo_id(shared, &philo_id);
 	forks_to_take[0] = philo_id - 1;
@@ -81,6 +88,7 @@ void	*live_life(void *arg)
 	else
 		forks_to_take[1] = philo_id;
 	time_init(&time);
+	time.number_of_meals = shared->number_of_meals;
 	tasking(shared, philo_id, forks_to_take, &time);
 	return (NULL);
 }

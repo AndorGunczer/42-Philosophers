@@ -6,13 +6,13 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:44 by agunczer          #+#    #+#             */
-/*   Updated: 2022/01/28 14:09:45 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/01/28 16:32:17 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/philosophers.h"
+#include "../inc/philosophers.h"
 
-static	int	ft_isspace(char c);
+static int	ft_isspace(char c);
 
 void	time_init(t_time *time)
 {
@@ -20,22 +20,22 @@ void	time_init(t_time *time)
 	gettimeofday(&(time->time_now_death), NULL);
 }
 
-int		waiter(t_shared *shared, int forks_to_take[2])
+int	is_num(char *str)
 {
-	int	fork_status;
-
-	fork_status = AVAILABLE;
-	if (shared->fork[forks_to_take[0]] == 0)
-		fork_status = TAKEN;
-	if (shared->fork[forks_to_take[1]] == 0)
-		fork_status = TAKEN;
-	return (fork_status);
+	if (str == NULL)
+		return (0);
+	while (*str != '\0')
+	{
+		if (*str > 57 || *str < 48)
+			return (0);
+		str++;
+	}
+	return (1);
 }
-
 
 int	ft_log(t_shared *shared, int philo_id, char *event, int exception)
 {
-	double   fresh;
+	double	fresh;
 
 	pthread_mutex_lock(&shared->mutex_print);
 	gettimeofday(&shared->timestamp, NULL);
@@ -43,7 +43,6 @@ int	ft_log(t_shared *shared, int philo_id, char *event, int exception)
 	if (shared->death == 0 || exception == 1)
 		printf("%.0fms\tphilo %d\t\t%s", (fresh - shared->start), philo_id, event);
 	pthread_mutex_unlock(&shared->mutex_print);
-
 	return (1);
 }
 
