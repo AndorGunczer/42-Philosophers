@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/28 14:09:44 by agunczer          #+#    #+#             */
+/*   Updated: 2022/01/28 14:09:45 by agunczer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "../inc/philosophers.h"
 
 static	int	ft_isspace(char c);
@@ -29,7 +41,7 @@ int	ft_log(t_shared *shared, int philo_id, char *event, int exception)
 	gettimeofday(&shared->timestamp, NULL);
 	fresh = shared->timestamp.tv_sec * 1000 + shared->timestamp.tv_usec / 1000;
 	if (shared->death == 0 || exception == 1)
-		printf("%f philo %d %s", (fresh - shared->start), philo_id, event);
+		printf("%.0fms\tphilo %d\t\t%s", (fresh - shared->start), philo_id, event);
 	pthread_mutex_unlock(&shared->mutex_print);
 
 	return (1);
