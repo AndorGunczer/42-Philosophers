@@ -36,7 +36,6 @@ void    eat(t_shared *shared, int philo_id, int forks_to_take[2], t_time *time)
 	{
 		gettimeofday(&(time->time_now_occupation), NULL);
 	}
-	gettimeofday(&(time->last_meal), NULL);
 }
 
 void	rest(t_shared *shared, int philo_id, int forks_to_take[2], t_time *time)
@@ -57,7 +56,7 @@ void	rest(t_shared *shared, int philo_id, int forks_to_take[2], t_time *time)
 	}
 }
 
-void    handle_forks(t_shared *shared, int philo_id, int forks_to_take[2], int task)
+void    handle_forks(t_shared *shared, int philo_id, int forks_to_take[2], int task, t_time *time)
 {
     int fork_status;
 
@@ -65,9 +64,13 @@ void    handle_forks(t_shared *shared, int philo_id, int forks_to_take[2], int t
     {
         while(fork_status != AVAILABLE && shared->death == 0)
         {
-			// if (is_dead(time, shared))
-			// 	return ;
-			// printf("HELLO");
+			pthread_mutex_lock(&shared->mutex_death);
+			if (is_dead(time, shared, philo_id))
+			{
+				pthread_mutex_unlock(&shared->mutex_death);	
+				return ;
+			}
+			pthread_mutex_unlock(&shared->mutex_death);
             pthread_mutex_lock(&shared->mutex_waiter);
             fork_status = waiter(shared, forks_to_take);
             if (fork_status == AVAILABLE)
@@ -110,12 +113,14 @@ void    *live_life(void *arg)
 		if (check_other_dead(shared))
 			return (NULL);
 		else
-        	handle_forks(shared, philo_id, forks_to_take, PICK_UP);
+        	handle_forks(shared, philo_id, forks_to_take, PICK_UP, &time);
 		if (check_other_dead(shared))
 			return (NULL);
 		else
+		{
+			gettimeofday(&(time.last_meal), NULL);
         	eat(shared, philo_id, forks_to_take, &time);
-        handle_forks(shared, philo_id, forks_to_take, PUT_DOWN);
+		}handle_forks(shared, philo_id, forks_to_take, PUT_DOWN, &time);
 		if (check_other_dead(shared))
 			return (NULL);
 		else

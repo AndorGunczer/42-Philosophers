@@ -8,28 +8,28 @@ void	time_init(t_time *time)
 	gettimeofday(&(time->time_now_death), NULL);
 }
 
-int     waiter(t_shared *shared, int forks_to_take[2])
+int		waiter(t_shared *shared, int forks_to_take[2])
 {
-    int fork_status;
+	int	fork_status;
 
-    fork_status = AVAILABLE;
-    if (shared->fork[forks_to_take[0]] == 0)
-        fork_status = TAKEN;
-    if (shared->fork[forks_to_take[1]] == 0)
-        fork_status = TAKEN;
-    return (fork_status);
+	fork_status = AVAILABLE;
+	if (shared->fork[forks_to_take[0]] == 0)
+		fork_status = TAKEN;
+	if (shared->fork[forks_to_take[1]] == 0)
+		fork_status = TAKEN;
+	return (fork_status);
 }
 
 
-int ft_log(t_shared *shared, int philo_id, char *event, int exception)
+int	ft_log(t_shared *shared, int philo_id, char *event, int exception)
 {
-    double   fresh;
+	double   fresh;
 
 	pthread_mutex_lock(&shared->mutex_print);
-    gettimeofday(&shared->timestamp, NULL);
-    fresh = shared->timestamp.tv_sec * 1000 + shared->timestamp.tv_usec / 1000;
-    if (shared->death == 0 || exception == 1)
-		printf("%f philo %d %s", (fresh - shared->start) / 1000, philo_id, event);
+	gettimeofday(&shared->timestamp, NULL);
+	fresh = shared->timestamp.tv_sec * 1000 + shared->timestamp.tv_usec / 1000;
+	if (shared->death == 0 || exception == 1)
+		printf("%f philo %d %s", (fresh - shared->start), philo_id, event);
 	pthread_mutex_unlock(&shared->mutex_print);
 
 	return (1);
