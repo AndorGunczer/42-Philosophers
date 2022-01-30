@@ -23,23 +23,17 @@
 # define TAKEN 0
 # define AVAILABLE 1
 
-typedef struct s_shared {
-	int				*fork;
-	int				death;
-	int				philo_id;
-	pthread_mutex_t	mutex_philo_id;
-	pthread_mutex_t	mutex_forks;
-	pthread_mutex_t	mutex_waiter;
-	pthread_mutex_t	mutex_death;
-	pthread_mutex_t	mutex_print;
-	int				number_of_philosophers;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				number_of_meals;
-	struct timeval	timestamp;
-	double			start;
-}	t_shared;
+// typedef struct s_shared {
+// 	int				*fork;
+// 	int				death;
+// 	int				philo_id;
+// 	pthread_mutex_t	mutex_forks;
+// 	pthread_mutex_t	mutex_waiter;
+// 	pthread_mutex_t	mutex_death;
+// 	pthread_mutex_t	mutex_print;
+// 	struct timeval	timestamp;
+// 	double			start;
+// }	t_shared;
 
 typedef struct s_time {
 	struct timeval	last_meal;
@@ -48,6 +42,27 @@ typedef struct s_time {
 	struct timeval	occupation_start;
 	int				number_of_meals;
 }	t_time;
+
+typedef struct s_philo {
+	int				id;
+	int				amount_meal;
+	int				*death;
+	pthread_mutex_t	*mutex_lfork;
+	pthread_mutex_t *mutex_rfork;
+	pthread_mutex_t	*mutex_waiter;
+	pthread_mutex_t	*mutex_death;
+	pthread_mutex_t	*mutex_print;
+	t_input			*input;
+	pthread_t		philosopher;
+}	t_philo;
+
+typedef struct s_input {
+	int				num_of_philo;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				number_of_meals;
+}	t_input;
 
 /*	death.c */
 int		check_other_dead(t_shared *shared);

@@ -1,94 +1,58 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/28 14:09:39 by agunczer          #+#    #+#             */
-/*   Updated: 2022/01/28 16:31:19 by agunczer         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../inc/philosophers.h"
 
-void	eat(t_shared *shared, int philo_id, int forks_to_take[2], t_time *time)
+int		fill_philosophers(t_input input, t_philo *philo, int i)
 {
-	gettimeofday(&(time->occupation_start), NULL);
-	gettimeofday(&(time->time_now_occupation), NULL);
-	ft_log(shared, philo_id, "HAS STARTED EATING\n", 0);
-	while ((time->time_now_occupation.tv_sec * 1000
-			+ time->time_now_occupation.tv_usec / 1000)
-		- (time->occupation_start.tv_sec * 1000
-			+ time->occupation_start.tv_usec / 1000) < shared->time_to_eat)
+	while (i < input.num_of_philo)
 	{
-		gettimeofday(&(time->time_now_occupation), NULL);
+		philo[i].mutex_rfork = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
+		if (philo[i].mutex_rfork == NULL)
+			return (1);
+		i++;
+	}
+	i = 0;
+	while (i < input.num_of_philo)
+	{
+		philo[i].id = i + 1;
+		philo[i].death = philo[0].death;
+		philo[i].mutex_waiter = philo[0].mutex_waiter;
+		philo[i].mutex_death = philo[0].mutex_death;
+		philo[i].mutex_print = philo[0].mutex_print;
+		philo[i].mutex_lfork = philo[(i + 1) % input.num_of_philo].mutex_rfork;
+		philo[i].input = input.number_of_meals;
+		i++;
+	}
+	i = 0;
+	while (i < input.num_of_philo)
+	{
+		pthread_create(&philo[i].philosopher, NULL, &live_life, &philo[i]);
+		i++;
 	}
 }
 
-void	rest(t_shared *shared, int philo_id, int forks_to_take[2], t_time *time)
+t_philo	*create_philosopher(t_input input)
 {
-	gettimeofday(&(time->occupation_start), NULL);
-	gettimeofday(&(time->time_now_occupation), NULL);
-	ft_log(shared, philo_id, "HAS STARTED SLEEPING\n", 0);
-	while ((time->time_now_occupation.tv_sec * 1000
-			+ time->time_now_occupation.tv_usec / 1000)
-		- (time->occupation_start.tv_sec * 1000 + time->occupation_start.tv_usec
-			/ 1000) < shared->time_to_sleep)
-	{
-		pthread_mutex_lock(&shared->mutex_death);
-		if (is_dead(time, shared, philo_id))
-		{
-			pthread_mutex_unlock(&shared->mutex_death);
-			return ;
-		}
-		pthread_mutex_unlock(&shared->mutex_death);
-		gettimeofday(&(time->time_now_occupation), NULL);
-	}
-}
+	t_philo *philo;
+	int		i;
 
-void	tasking(t_shared *shared, int philo_id, int forks_to_take[2],
-				t_time *time)
-{
-	while (1 && time->number_of_meals != 0)
-	{
-		if (check_other_dead(shared))
-			break ;
-		else
-			handle_forks_up(shared, philo_id, forks_to_take, time);
-		if (check_other_dead(shared))
-			break ;
-		else
-		{
-			gettimeofday(&(time->last_meal), NULL);
-			eat(shared, philo_id, forks_to_take, time);
-			time->number_of_meals--;
-		}
-		handle_forks_down(shared, philo_id, forks_to_take, time);
-		if (check_other_dead(shared))
-			break ;
-		else
-			rest(shared, philo_id, forks_to_take, time);
-		ft_log(shared, philo_id, "HAS STARTED THINKING\n", 0);
-	}
-}
+	philo = (t_philo *) malloc(input.num_of_philo * sizeof(t_philo));
+	philo->death = (int *) malloc(sizeof(int));
+	philo->mutex_waiter = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
+	philo->mutex_death = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
+	philo->mutex_print = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
+	if (philo->death == NULL || philo->mutex_waiter == NULL
+		|| philo->mutex_death == NULL || philo->mutex_print == NULL)
+		return (NULL);
+	if (pthread_mutex_init(philo->mutex_waiter, NULL))
+		return (NULL);
+	if (pthread_mutex_init(philo->mutex_death, NULL))
+		return (NULL);
+	if (pthread_mutex_init(philo->mutex_print, NULL))
+		return (NULL);
+	philo->death = 0;
+	i = 0;
+	if (fill_philosophers(input, philo, i))
+		return (NULL);
+	return (philo);
 
-void	*live_life(void *arg)
-{
-	t_shared	*shared;
-	int			philo_id;
-	int			forks_to_take[2];
-	t_time		time;
 
-	shared = arg;
-	increase_philo_id(shared, &philo_id);
-	forks_to_take[0] = philo_id - 1;
-	if (philo_id == shared->number_of_philosophers)
-		forks_to_take[1] = 0;
-	else
-		forks_to_take[1] = philo_id;
-	time_init(&time);
-	time.number_of_meals = shared->number_of_meals;
-	tasking(shared, philo_id, forks_to_take, &time);
-	return (NULL);
 }

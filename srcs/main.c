@@ -56,64 +56,37 @@ static int	check_input(int argc, char **argv)
 	return (0);
 }
 
-static void	init_mutex(t_shared *shared_data)
+static int	init_input(t_input *input, char **argv)
 {
-	pthread_mutex_init(&shared_data->mutex_philo_id, NULL);
-	pthread_mutex_init(&shared_data->mutex_forks, NULL);
-	pthread_mutex_init(&shared_data->mutex_waiter, NULL);
-	pthread_mutex_init(&shared_data->mutex_death, NULL);
-	pthread_mutex_init(&shared_data->mutex_print, NULL);
-}
-
-static int	init_shared_data(t_shared *shared_data, char **argv)
-{
-	int	i;
-
-	i = 0;
-	shared_data->death = 0;
-	shared_data->philo_id = 1;
-	shared_data->number_of_philosophers = ft_atoi(argv[1]);
-	shared_data->time_to_die = ft_atoi(argv[2]);
-	shared_data->time_to_eat = ft_atoi(argv[3]);
-	shared_data->time_to_sleep = ft_atoi(argv[4]);
+	input->num_of_philo = ft_atoi(argv[1]);
+	input->time_to_die = ft_atoi(argv[2]);
+	input->time_to_eat = ft_atoi(argv[3]);
+	input->time_to_sleep = ft_atoi(argv[4]);
 	if (argv[5])
-		shared_data->number_of_meals = ft_atoi(argv[5]);
+		input->number_of_meals = ft_atoi(argv[5]);
 	else
-		shared_data->number_of_meals = -1;
-	shared_data->fork = malloc(shared_data->number_of_philosophers
-			* sizeof(int));
-	while (i < shared_data->number_of_philosophers)
-	{
-		shared_data->fork[i] = 1;
-		i++;
-	}
+		input->number_of_meals = -1;
+	// shared_data->fork = malloc(shared_data->num_of_philo
+	// 		* sizeof(int));
+	// while (i < shared_data->num_of_philo)
+	// {
+	// 	shared_data->fork[i] = 1;
+	// 	i++;
+	// }
 	return (0);
 }
 
 int	main(int argc, char **argv)
 {
 	int			i;
-	t_shared	shared_data;
-	pthread_t	*threads;
+	t_input		input;
 
 	i = 1;
 	if (check_input(argc, argv) == 1)
-		return (1);
-	init_shared_data(&shared_data, argv);
-	init_mutex(&shared_data);
-	threads = malloc(shared_data.number_of_philosophers * sizeof(pthread_t));
-	gettimeofday(&shared_data.timestamp, NULL);
-	shared_data.start = (shared_data.timestamp.tv_sec * 1000)
-		+ (shared_data.timestamp.tv_usec / 1000);
-	while (i <= shared_data.number_of_philosophers)
-	{
-		pthread_create(&threads[i - 1], NULL, live_life, &shared_data);
-		i++;
-	}
-	i = 1;
-	while (i <= shared_data.number_of_philosophers)
-	{
-		pthread_join(threads[i - 1], NULL);
-		i++;
-	}
+		return (EXIT_FAILURE);
+	if (init_input(&input, argv) == 1 && free_all())
+		return (EXIT_FAILURE);
+	if (create_philo(input) == NULL && free_all())
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
