@@ -49,8 +49,8 @@ typedef struct s_input {
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				number_of_meals;
-	int				start;
 	struct timeval	timestamp;
+	double			start;
 }	t_input;
 
 typedef struct s_philo {
