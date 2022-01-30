@@ -36,13 +36,16 @@ int	is_num(char *str)
 int	ft_log(t_philo *philo, char *event, int exception)
 {
 	double	fresh;
+	// struct timeval wtf;
 
-	pthread_mutex_lock(&philo->mutex_print);
-	gettimeofday(&shared->timestamp, NULL);
-	fresh = shared->timestamp.tv_sec * 1000 + shared->timestamp.tv_usec / 1000;
-	if (shared->death == 0 || exception == 1)
-		printf("%.0fms\tphilo %d\t\t%s", (fresh - shared->start), philo->id, event);
-	pthread_mutex_unlock(&shared->mutex_print);
+	pthread_mutex_lock(philo->mutex_print);
+	gettimeofday(&philo->input->timestamp, NULL);
+	fresh = philo->input->timestamp.tv_sec * 1000 + philo->input->timestamp.tv_usec / 1000;
+	printf("\t%f\n", fresh);
+	printf("\t%f\n", philo->input->start);
+	if (*philo->death == 0 || exception == 1)
+		printf("%.0fms\tphilo %d\t\t%s", (fresh - philo->input->start), philo->id, event);
+	pthread_mutex_unlock(philo->mutex_print);
 	return (1);
 }
 

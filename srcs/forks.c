@@ -12,50 +12,46 @@
 
 #include "../inc/philosophers.h"
 
-int	waiter(t_shared *shared, int forks_to_take[2])
+// int	waiter(t_shared *shared, int forks_to_take[2])
+// {
+// 	int	fork_status;
+
+// 	fork_status = AVAILABLE;
+// 	if (shared->fork[forks_to_take[0]] == 0)
+// 		fork_status = TAKEN;
+// 	if (shared->fork[forks_to_take[1]] == 0)
+// 		fork_status = TAKEN;
+// 	return (fork_status);
+// }
+
+void	handle_forks_up(t_philo *philo, t_time *time)
 {
-	int	fork_status;
+	// int	fork_status;
 
-	fork_status = AVAILABLE;
-	if (shared->fork[forks_to_take[0]] == 0)
-		fork_status = TAKEN;
-	if (shared->fork[forks_to_take[1]] == 0)
-		fork_status = TAKEN;
-	return (fork_status);
-}
-
-void	handle_forks_up(t_shared *shared, int philo_id,
-		int forks_to_take[2], t_time *time)
-{
-	int	fork_status;
-
-	while (fork_status != AVAILABLE && shared->death == 0)
+	if (is_dead(time, philo))
 	{
-		pthread_mutex_lock(&shared->mutex_death);
-		if (is_dead(time, shared, philo_id))
-		{
-			pthread_mutex_unlock(&shared->mutex_death);
-			return ;
-		}
-		pthread_mutex_unlock(&shared->mutex_death);
-		pthread_mutex_lock(&shared->mutex_waiter);
-		fork_status = waiter(shared, forks_to_take);
-		if (fork_status == AVAILABLE)
-		{
-			shared->fork[forks_to_take[0]] = 0;
-			ft_log(shared, philo_id, "HAS TAKEN A FORK\n", 0);
-			shared->fork[forks_to_take[1]] = 0;
-			ft_log(shared, philo_id, "HAS TAKEN A FORK\n", 0);
-		}
-		pthread_mutex_unlock(&shared->mutex_waiter);
+		pthread_mutex_unlock(philo->mutex_death);
+		return ;
+	}
+	pthread_mutex_unlock(philo->mutex_death);
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->mutex_rfork);
+		ft_log(philo, "HAS TAKEN A FORK\n", 0);
+		pthread_mutex_lock(philo->mutex_lfork);
+		ft_log(philo, "HAS TAKEN A FORK\n", 0);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->mutex_lfork);
+		ft_log(philo, "HAS TAKEN A FORK\n", 0);
+		pthread_mutex_lock(philo->mutex_rfork);
+		ft_log(philo, "HAS TAKEN A FORK\n", 0);
 	}
 }
 
-void	handle_forks_down(t_shared *shared, int philo_id,
-		int forks_to_take[2], t_time *time)
+void	handle_forks_down(t_philo *philo, t_time *time)
 {
-	pthread_mutex_lock(&shared->mutex_forks);
-	shared->fork[forks_to_take[0]] = 1;
-	shared->fork[forks_to_take[1]] = 1;
-	pthread_mutex_unlock(&shared->mutex_forks);
+	pthread_mutex_unlock(philo->mutex_rfork);
+	pthread_mutex_unlock(philo->mutex_lfork);
 }

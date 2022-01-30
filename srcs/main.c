@@ -12,14 +12,6 @@
 
 #include "../inc/philosophers.h"
 
-void	increase_philo_id(t_shared *shared, int *philo_id)
-{
-	pthread_mutex_lock(&shared->mutex_philo_id);
-	*philo_id = shared->philo_id;
-	shared->philo_id++;
-	pthread_mutex_unlock(&shared->mutex_philo_id);
-}
-
 static int	check_input(int argc, char **argv)
 {
 	int	num;
@@ -43,12 +35,12 @@ static int	check_input(int argc, char **argv)
 		if (is_num(argv[5]) == 0)
 			num = 0;
 	}
-	if (num == 1)
-	{
-		printf("\033[0;33mBUCKLE UP FUCKERS, THE HUNGER GAMES ARE ABOUT TO BEGIN!\n\033[0m");
-		sleep(4);
-	}
-	else
+	// if (num == 1)
+	// {
+	// 	printf("\033[0;33mBUCKLE UP FUCKERS, THE HUNGER GAMES ARE ABOUT TO BEGIN!\n\033[0m");
+	// 	sleep(4);
+	// }
+	if (num == 0)
 	{
 		printf("\033[0;31m\tWrong argument type provided\n\tPhilosophers quit.");
 		return (1);
@@ -66,6 +58,9 @@ static int	init_input(t_input *input, char **argv)
 		input->number_of_meals = ft_atoi(argv[5]);
 	else
 		input->number_of_meals = -1;
+	gettimeofday(&(input->timestamp), NULL);
+	input->start = (input->timestamp.tv_sec * 1000)
+		+ (input->timestamp.tv_usec / 1000);
 	// shared_data->fork = malloc(shared_data->num_of_philo
 	// 		* sizeof(int));
 	// while (i < shared_data->num_of_philo)
@@ -84,9 +79,9 @@ int	main(int argc, char **argv)
 	i = 1;
 	if (check_input(argc, argv) == 1)
 		return (EXIT_FAILURE);
-	if (init_input(&input, argv) == 1 && free_all())
+	if (init_input(&input, argv) == 1) //free_all()
 		return (EXIT_FAILURE);
-	if (create_philo(input) == NULL && free_all())
+	if (create_philosopher(&input) == NULL) //free_all()
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

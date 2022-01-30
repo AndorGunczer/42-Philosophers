@@ -24,13 +24,13 @@ void	rest(t_philo *philo, t_time *time)
 		- (time->occupation_start.tv_sec * 1000 + time->occupation_start.tv_usec
 			/ 1000) < philo->input->time_to_sleep)
 	{
-		pthread_mutex_lock(&philo->mutex_death);
+		// pthread_mutex_lock(philo->mutex_death);
 		if (is_dead(time, philo))
 		{
-			pthread_mutex_unlock(&philo->mutex_death);
+			// pthread_mutex_unlock(philo->mutex_death);
 			return ;
 		}
-		pthread_mutex_unlock(&philo->mutex_death);
+		// pthread_mutex_unlock(philo->mutex_death);
 		gettimeofday(&(time->time_now_occupation), NULL);
 	}
 }

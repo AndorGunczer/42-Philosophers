@@ -12,17 +12,17 @@
 
 #include "../inc/philosophers.h"
 
-int	check_other_dead(t_shared *shared)
+int	check_other_dead(t_philo *philo)
 {
-	pthread_mutex_lock(&shared->mutex_death);
-	if (shared->death == 0)
+	// pthread_mutex_lock(philo->mutex_death);
+	if (*(philo->death) == 0)
 	{
-		pthread_mutex_unlock(&shared->mutex_death);
+		// pthread_mutex_unlock(philo->mutex_death);
 		return (0);
 	}
 	else
 	{
-		pthread_mutex_unlock(&shared->mutex_death);
+		// pthread_mutex_unlock(philo->mutex_death);
 		return (1);
 	}
 }
@@ -30,17 +30,17 @@ int	check_other_dead(t_shared *shared)
 // printf("%ld\n%ld\n", (time->time_now_death.tv_sec * 1000 + time->time_now_death.tv_usec / 1000) 
 //- (time->last_meal.tv_sec * 1000 + time->last_meal.tv_usec / 1000), shared->time_to_die);
 
-int	is_dead(t_time *time, t_shared *shared, int philo_id)
+int	is_dead(t_time *time, t_philo *philo)
 {
 	gettimeofday(&(time->time_now_death), NULL);
 	if (((time->time_now_death.tv_sec * 1000
 				+ time->time_now_death.tv_usec / 1000)
 			- (time->last_meal.tv_sec * 1000
-				+ time->last_meal.tv_usec / 1000) > shared->time_to_die)
-		&& shared->death != 1)
+				+ time->last_meal.tv_usec / 1000) > philo->input->time_to_die)
+		&& *philo->death != 1)
 	{
-		shared->death = 1;
-		ft_log(shared, philo_id, "DIED\n", 1);
+		*philo->death = 1;
+		ft_log(philo, "DIED\n", 1);
 		return (1);
 	}
 	return (0);

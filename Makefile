@@ -10,6 +10,7 @@ SRCS			=		srcs/death.c \
 						srcs/main.c \
 						srcs/utils.c \
 						srcs/philo.c \
+						srcs/routine.c
 
 OBJS			=		$(SRCS:.c=.o)
 

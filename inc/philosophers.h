@@ -43,6 +43,16 @@ typedef struct s_time {
 	int				number_of_meals;
 }	t_time;
 
+typedef struct s_input {
+	int				num_of_philo;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				number_of_meals;
+	int				start;
+	struct timeval	timestamp;
+}	t_input;
+
 typedef struct s_philo {
 	int				id;
 	int				amount_meal;
@@ -54,37 +64,29 @@ typedef struct s_philo {
 	pthread_mutex_t	*mutex_print;
 	t_input			*input;
 	pthread_t		philosopher;
+	// t_time			time;
 }	t_philo;
 
-typedef struct s_input {
-	int				num_of_philo;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				number_of_meals;
-}	t_input;
-
 /*	death.c */
-int		check_other_dead(t_shared *shared);
-int		is_dead(t_time *time, t_shared *shared, int philo_id);
+int		check_other_dead(t_philo *philo);
+int		is_dead(t_time *time, t_philo *philo);
 
 /*	forks.c */
-int		waiter(t_shared *shared, int forks_to_take[2]);
-void	handle_forks_up(t_shared *shared,
-			int philo_id, int forks_to_take[2], t_time *time);
-void	handle_forks_down(t_shared *shared,
-			int philo_id, int forks_to_take[2], t_time *time);
+// int		waiter(t_shared *shared, int forks_to_take[2]);
+void	handle_forks_up(t_philo *philo, t_time *time);
+void	handle_forks_down(t_philo *philo, t_time *time);
 
 /*  utlis.c */
 int		ft_atoi(const char *str);
-int		ft_log(t_shared *shared, int philo_id, char *event, int exception);
+int		ft_log(t_philo *philo, char *event, int exception);
 int		is_num(char *str);
 void	time_init(t_time *time);
 
 /*  philo.c */
+int		fill_philosophers(t_input *input, t_philo *philo, int i);
+t_philo	*create_philosopher(t_input *input);
 void	*live_life(void *arg);
 
 /*  main.c */
-void	increase_philo_id(t_shared *shared, int *philo_id);
 
 #endif
