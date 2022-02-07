@@ -15,7 +15,7 @@ int		fill_philosophers(t_input *input, t_philo *philo, int i)
 	while (i < input->num_of_philo)
 	{
 		philo[i].mutex_rfork = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
-		if (philo[i].mutex_rfork == NULL)
+		if (pthread_mutex_init(philo[i].mutex_rfork, NULL))
 			return (1);
 		i++;
 	}
@@ -38,7 +38,7 @@ int		fill_philosophers(t_input *input, t_philo *philo, int i)
 	// 	i++;
 	// }
 	// i = 0;
-	//
+	
 	while (i < input->num_of_philo)
 	{
 		pthread_create(&philo[i].philosopher, NULL, &live_life, &philo[i]);

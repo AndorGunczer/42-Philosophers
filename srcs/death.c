@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:24 by agunczer          #+#    #+#             */
-/*   Updated: 2022/01/28 16:35:39 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/07 14:41:13 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int	check_other_dead(t_philo *philo)
 {
-	// pthread_mutex_lock(philo->mutex_death);
+	pthread_mutex_lock(philo->mutex_death);
 	if (*(philo->death) == 0)
 	{
-		// pthread_mutex_unlock(philo->mutex_death);
+		pthread_mutex_unlock(philo->mutex_death);
 		return (0);
 	}
 	else
 	{
-		// pthread_mutex_unlock(philo->mutex_death);
+		pthread_mutex_unlock(philo->mutex_death);
 		return (1);
 	}
 }
