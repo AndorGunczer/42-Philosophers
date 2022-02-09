@@ -10,6 +10,13 @@ void	eat(t_philo *philo, t_time *time)
 		- (time->occupation_start.tv_sec * 1000
 			+ time->occupation_start.tv_usec / 1000) < philo->input->time_to_eat)
 	{
+		pthread_mutex_lock(philo->mutex_death);
+		if (is_dead(time, philo))
+		{
+			pthread_mutex_unlock(philo->mutex_death);
+			return ;
+		}
+		pthread_mutex_unlock(philo->mutex_death);
 		gettimeofday(&(time->time_now_occupation), NULL);
 	}
 }
@@ -37,10 +44,10 @@ void	rest(t_philo *philo, t_time *time)
 
 void	tasking(t_philo *philo, t_time *time)
 {
-	while (1 && time->number_of_meals != 0)
+	while (1 && philo->amount_meal != 0)
 	{
-		// if (philo->id % 2 == 0)
-		// 	usleep(100);
+		if (philo->id % 2 == 0)
+			usleep(100);
 		if (check_other_dead(philo))
 		{
 			pthread_mutex_unlock(philo->mutex_lfork);
@@ -57,12 +64,12 @@ void	tasking(t_philo *philo, t_time *time)
 		}
 		else
 		{
-			gettimeofday(&(time->last_meal), NULL);
 			eat(philo, time);
-		    if (philo->amount_meal > 0)
+		    // if (philo->amount_meal > 0)
 				philo->amount_meal--;
 		}
 		handle_forks_down(philo, time);
+		gettimeofday(&(time->last_meal), NULL);
 		if (check_other_dead(philo))
 		{
 			pthread_mutex_unlock(philo->mutex_lfork);
