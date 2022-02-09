@@ -17,6 +17,8 @@ int		fill_philosophers(t_input *input, t_philo *philo, int i)
 		philo[i].mutex_rfork = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
 		if (pthread_mutex_init(philo[i].mutex_rfork, NULL))
 			return (1);
+		philo[i].rfork = (int *) malloc(sizeof(int));
+		*(philo[i].rfork) = 1;
 		i++;
 	}
 	i = 0;
@@ -28,6 +30,8 @@ int		fill_philosophers(t_input *input, t_philo *philo, int i)
 		philo[i].mutex_death = philo[0].mutex_death;
 		philo[i].mutex_print = philo[0].mutex_print;
 		philo[i].mutex_lfork = philo[(i + 1) % input->num_of_philo].mutex_rfork;
+		philo[i].lfork = philo[(i + 1) % input->num_of_philo].rfork;
+		*(philo[i].lfork) = 1;
 		philo[i].input = input;
 		philo[i].amount_meal = philo[0].input->number_of_meals;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:50 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/09 12:50:21 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/09 15:35:45 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef struct s_philo {
 	int				id;
 	int				amount_meal;
 	int				*death;
+	int				*lfork;
+	int				*rfork;
 	pthread_mutex_t	*mutex_lfork;
 	pthread_mutex_t *mutex_rfork;
 	pthread_mutex_t	*mutex_waiter;
