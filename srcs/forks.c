@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:11:18 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/07 14:44:57 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/09 13:22:51 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,8 @@
 
 void	handle_forks_up(t_philo *philo, t_time *time)
 {
-	// int	fork_status;
-
-	pthread_mutex_lock(philo->mutex_death);
 	if (is_dead(time, philo))
-	{
-		pthread_mutex_unlock(philo->mutex_death);
 		return ;
-	}
-	pthread_mutex_unlock(philo->mutex_death);
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->mutex_lfork);
@@ -53,6 +46,6 @@ void	handle_forks_up(t_philo *philo, t_time *time)
 
 void	handle_forks_down(t_philo *philo, t_time *time)
 {
-	pthread_mutex_unlock(philo->mutex_rfork);
-	pthread_mutex_unlock(philo->mutex_lfork);
+		pthread_mutex_unlock(philo->mutex_rfork);
+		pthread_mutex_unlock(philo->mutex_lfork);
 }

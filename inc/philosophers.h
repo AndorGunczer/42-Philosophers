@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:50 by agunczer          #+#    #+#             */
-/*   Updated: 2022/01/28 16:40:31 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/09 12:50:21 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,8 @@ t_philo	*create_philosopher(t_input *input);
 void	*live_life(void *arg);
 
 /*  main.c */
+
+/*	time.c */
+long		get_time(struct timeval time);
 
 #endif

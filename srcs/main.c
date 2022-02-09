@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:29 by agunczer          #+#    #+#             */
-/*   Updated: 2022/01/28 16:33:20 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/09 13:24:39 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,6 @@ static int	init_input(t_input *input, char **argv)
 	gettimeofday(&(input->timestamp), NULL);
 	input->start = (input->timestamp.tv_sec * 1000)
 		+ (input->timestamp.tv_usec / 1000);
-	// shared_data->fork = malloc(shared_data->num_of_philo
-	// 		* sizeof(int));
-	// while (i < shared_data->num_of_philo)
-	// {
-	// 	shared_data->fork[i] = 1;
-	// 	i++;
-	// }
 	return (0);
 }
 

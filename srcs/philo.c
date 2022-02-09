@@ -73,12 +73,9 @@ t_philo	*create_philosopher(t_input *input)
 		return (NULL);
 	if (pthread_mutex_init(philo->mutex_print, NULL))
 		return (NULL);
-	*philo->death = 0; //if == 1 it runs
+	*philo->death = 0;
 	i = 0;
-	// printf("HELLO");
 	if (fill_philosophers(input, philo, i))
 		return (NULL);
 	return (philo);
-
-
 }
