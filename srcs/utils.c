@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:44 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/02 15:38:33 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/10 16:46:18 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ int	ft_log(t_philo *philo, char *event, int exception)
 
 	pthread_mutex_lock(philo->mutex_print);
 	gettimeofday(&(philo->input->timestamp), NULL);
-	fresh = philo->input->timestamp.tv_sec * 1000 + philo->input->timestamp.tv_usec / 1000;
-	if (*philo->death == 0 || exception == 1)
-		printf("%.0fms\tphilo %d\t\t%s", (fresh - philo->input->start), philo->id, event);
 	pthread_mutex_unlock(philo->mutex_print);
+	fresh = philo->input->timestamp.tv_sec * 1000
+		+ philo->input->timestamp.tv_usec / 1000;
+	if (*philo->death == 0 || exception == 1)
+		printf("%.0fms\tphilo %d\t\t%s", (fresh
+				- philo->input->start), philo->id, event);
+	// pthread_mutex_unlock(philo->mutex_print);
 	return (1);
 }
 

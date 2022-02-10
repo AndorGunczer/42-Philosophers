@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:50 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/09 15:35:45 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/10 10:51:00 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_input {
 typedef struct s_philo {
 	int				id;
 	int				amount_meal;
-	int				*death;
+	volatile int	*death;
 	int				*lfork;
 	int				*rfork;
 	pthread_mutex_t	*mutex_lfork;
@@ -76,7 +76,7 @@ int		is_dead(t_time *time, t_philo *philo);
 /*	forks.c */
 // int		waiter(t_shared *shared, int forks_to_take[2]);
 void	handle_forks_up(t_philo *philo, t_time *time);
-void	handle_forks_down(t_philo *philo, t_time *time);
+void	handle_forks_down(t_philo *philo);
 
 /*  utlis.c */
 int		ft_atoi(const char *str);

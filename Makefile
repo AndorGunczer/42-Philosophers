@@ -17,7 +17,7 @@ OBJS			=		$(SRCS:.c=.o)
 
 # LIB				=		@make -C ./libft
 
-CFLAGS			=		 -g -fsanitize=address
+# CFLAGS			=		 -g -fsanitize=thread
 
 .c.o			:
 						@gcc $(CFLAGS) -c $< -o $(<:.c=.o)
