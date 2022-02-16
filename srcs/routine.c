@@ -43,9 +43,7 @@ static int		think(t_philo *philo)
 void	*routine(void *arg)
 {
     t_philo *philo = arg;
-	// t_time		time;
 
-	// time_init(&time);
 	while (1)
 	{
 		if (eat(philo) == 1)

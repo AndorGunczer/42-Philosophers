@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 12:39:48 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/16 07:14:09 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/16 12:16:31 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ int		ft_sleep(long duration, t_philo *philo)
 
 	start = get_time();
 	now = get_time();
+	ft_log(philo, "TASKING\n", 0);
 	while (now - start < duration)
-	{
+	{	
+		usleep(100);
 		now = get_time();
-		continue ;
 	}
 	return (0);
 }

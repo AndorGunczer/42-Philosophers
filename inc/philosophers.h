@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:50 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/16 06:55:33 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/16 12:12:40 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,6 @@
 // 	double			start;
 // }	t_shared;
 
-typedef struct s_time {
-	struct timeval	last_meal;
-	struct timeval	time_now_death;
-	struct timeval	time_now_occupation;
-	struct timeval	occupation_start;
-	int				number_of_meals;
-}	t_time;
-
 typedef struct s_input {
 	int				num_of_philo;
 	int				time_to_die;
@@ -57,6 +49,7 @@ typedef struct s_philo {
 	int				id;
 	int				amount_meal;
 	volatile int	*death;
+	long			last_meal;
 	pthread_mutex_t	*mutex_lfork;
 	pthread_mutex_t *mutex_rfork;
 	pthread_mutex_t	*mutex_waiter;
@@ -68,18 +61,12 @@ typedef struct s_philo {
 }	t_philo;
 
 /*	death.c */
-int		is_dead(t_time *time, t_philo *philo);
-
-/*	forks.c */
-// int		waiter(t_shared *shared, int forks_to_take[2]);
-void	handle_forks_up(t_philo *philo, t_time *time);
-void	handle_forks_down(t_philo *philo);
+int		is_dead(t_philo *philo);
 
 /*  utlis.c */
 int		ft_atoi(const char *str);
 int		ft_log(t_philo *philo, char *event, int exception);
 int		is_num(char *str);
-void	time_init(t_time *time);
 
 /*  philo.c */
 int		fill_philosophers(t_input *input, t_philo *philo, int i);
@@ -91,5 +78,11 @@ void	*routine(void *arg);
 /*	time.c */
 long		get_time();
 int			ft_sleep(long duration, t_philo *philo);
+
+/*	string.c */
+void	ft_putchar_fd(char c, int fd);
+void	ft_putendl_fd(char *s, int fd);
+void	ft_putstr_buff(char *s, char **ptr);
+void	ft_putnbr_buff(long n, char **ptr);
 
 #endif
