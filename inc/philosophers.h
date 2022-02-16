@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:50 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/16 13:37:48 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/16 17:40:18 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ int		is_dead(t_philo *philo);
 
 /*  utlis.c */
 int		ft_atoi(const char *str);
-int		ft_log(t_philo *philo, char *event, int exception);
+int		ft_log(t_philo *philo, char *event, int exception, char *ptr);
 int		is_num(char *str);
+int		one_philo(t_philo *philo);
 
 /*  philo.c */
 int		fill_philosophers(t_input *input, t_philo *philo, int i);

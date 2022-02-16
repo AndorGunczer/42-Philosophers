@@ -6,20 +6,20 @@ static int		eat(t_philo *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->mutex_lfork);
-		ft_log(philo, " has taken a fork", 0);
+		ft_log(philo, " has taken a fork", 0, NULL);
 		if (*philo->death == 1)
 			return (1);
 		pthread_mutex_lock(philo->mutex_rfork);
-		ft_log(philo, " has taken a fork", 0);
+		ft_log(philo, " has taken a fork", 0, NULL);
 	}
 	else
 	{
 		pthread_mutex_lock(philo->mutex_rfork);
-		ft_log(philo, " has taken a fork", 0);
+		ft_log(philo, " has taken a fork", 0, NULL);
 		if (*philo->death == 1)
 			return (1);
 		pthread_mutex_lock(philo->mutex_lfork);
-		ft_log(philo, " has taken a fork", 0);
+		ft_log(philo, " has taken a fork", 0, NULL);
 	}
 	if (ft_sleep(philo->input->time_to_eat, philo) == 1)
 		return (1);
@@ -42,6 +42,7 @@ static int		think(t_philo *philo)
 	philo->state = thinking;
 	if (*(philo->death) == 1)
 		return (1);
+	ft_log(philo, NULL, 0, NULL);
 	usleep(150);
 	return (0);
 }
@@ -50,13 +51,15 @@ void	*routine(void *arg)
 {
     t_philo *philo = arg;
 
+	if (philo->mutex_lfork == philo->mutex_rfork && one_philo(philo))
+		return (NULL);
 	if (philo->id % 2 == 0)
 		think(philo);
 	while (1)
 	{
 		if (eat(philo) == 1)
 			break ;
-		if (philo->amount_meal++ == philo->input->number_of_meals)
+		if (++philo->amount_meal == philo->input->number_of_meals)
 			break ;
 		if (ft_sleeping(philo) == 1)
 			break ;
