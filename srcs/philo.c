@@ -10,6 +10,58 @@
 // 	printf("\tphilo[i].rfork (own) = %p\n", philo.mutex_rfork);
 // }
 
+static	int	ft_isspace(char c)
+{
+	if (c == ' ')
+		return (1);
+	else if ((c == '\n' || c == '\t' || c == '\v' || c == '\t' || c == '\r'
+			|| c == '\f'))
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_atoi(const char *str)
+{
+	int		i;
+	int		j;
+	int		num;
+
+	i = 0;
+	j = 0;
+	num = 0;
+	while (ft_isspace(*(str + i)) == 1 && str[i] != '\0')
+	{
+		i++;
+		j++;
+	}
+	if (str[i] == '\0')
+		return (0);
+	if (*(str + j) == '-' || *(str + j) == '+')
+		i++;
+	while (*(str + i) && *(str + i) >= '0' && *(str + i) <= '9')
+	{
+		num = num * 10 + (*(str + i) - '0');
+		i++;
+	}
+	if (*(str + j) == '-')
+		num *= -1;
+	return (num);
+}
+
+int	is_num(char *str)
+{
+	if (str == NULL)
+		return (0);
+	while (*str != '\0')
+	{
+		if (*str > 57 || *str < 48)
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
 int		fill_philosophers(t_input *input, t_philo *philo, int i)
 {
 	while (i < input->num_of_philo)
@@ -17,8 +69,6 @@ int		fill_philosophers(t_input *input, t_philo *philo, int i)
 		philo[i].mutex_rfork = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
 		if (pthread_mutex_init(philo[i].mutex_rfork, NULL))
 			return (1);
-		philo[i].rfork = (int *) malloc(sizeof(int));
-		*(philo[i].rfork) = 1;
 		i++;
 	}
 	i = 0;
@@ -30,10 +80,8 @@ int		fill_philosophers(t_input *input, t_philo *philo, int i)
 		philo[i].mutex_death = philo[0].mutex_death;
 		philo[i].mutex_print = philo[0].mutex_print;
 		philo[i].mutex_lfork = philo[(i + 1) % input->num_of_philo].mutex_rfork;
-		philo[i].lfork = philo[(i + 1) % input->num_of_philo].rfork;
-		*(philo[i].lfork) = 1;
 		philo[i].input = input;
-		philo[i].amount_meal = philo[0].input->number_of_meals;
+		philo[i].amount_meal = 0;
 		i++;
 	}
 	i = 0;//
@@ -46,7 +94,7 @@ int		fill_philosophers(t_input *input, t_philo *philo, int i)
 	
 	while (i < input->num_of_philo)
 	{
-		pthread_create(&philo[i].philosopher, NULL, &live_life, &philo[i]);
+		pthread_create(&philo[i].philosopher, NULL, &routine, &philo[i]);
 		i++;
 	}
 	i = 0;

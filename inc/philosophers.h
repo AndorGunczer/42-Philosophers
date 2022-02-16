@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:50 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/10 10:51:00 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/16 06:55:33 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ typedef struct s_philo {
 	int				id;
 	int				amount_meal;
 	volatile int	*death;
-	int				*lfork;
-	int				*rfork;
 	pthread_mutex_t	*mutex_lfork;
 	pthread_mutex_t *mutex_rfork;
 	pthread_mutex_t	*mutex_waiter;
@@ -70,7 +68,6 @@ typedef struct s_philo {
 }	t_philo;
 
 /*	death.c */
-int		check_other_dead(t_philo *philo);
 int		is_dead(t_time *time, t_philo *philo);
 
 /*	forks.c */
@@ -87,11 +84,12 @@ void	time_init(t_time *time);
 /*  philo.c */
 int		fill_philosophers(t_input *input, t_philo *philo, int i);
 t_philo	*create_philosopher(t_input *input);
-void	*live_life(void *arg);
+void	*routine(void *arg);
 
 /*  main.c */
 
 /*	time.c */
-long		get_time(struct timeval time);
+long		get_time();
+int			ft_sleep(long duration, t_philo *philo);
 
 #endif

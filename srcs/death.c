@@ -6,20 +6,11 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:24 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/10 17:15:46 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/16 06:55:22 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philosophers.h"
-
-int	check_other_dead(t_philo *philo)
-{
-	if (*(philo->death) == 0)
-	{
-		return (0);
-	}
-	return (1);
-}
 
 // printf("%ld\n%ld\n", (time->time_now_death.tv_sec * 1000 + time->time_now_death.tv_usec / 1000) 
 //- (time->last_meal.tv_sec * 1000 + time->last_meal.tv_usec / 1000), shared->time_to_die);
