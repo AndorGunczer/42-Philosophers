@@ -82,6 +82,7 @@ int		fill_philosophers(t_input *input, t_philo *philo, int i)
 		philo[i].mutex_lfork = philo[(i + 1) % input->num_of_philo].mutex_rfork;
 		philo[i].input = input;
 		philo[i].amount_meal = 0;
+		philo[i].last_meal = get_time();
 		i++;
 	}
 	i = 0;//

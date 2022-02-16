@@ -5,21 +5,22 @@ static int		eat(t_philo *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->mutex_lfork);
-		ft_log(philo, "HAS TAKEN A FORK\n", 0);
-		// if (is_dead(time, philo))
-		// 	return (1);
+		ft_log(philo, "HAS TAKEN A FORK", 0);
+		if (philo->death == 1)
+			return (1);
 		pthread_mutex_lock(philo->mutex_rfork);
-		ft_log(philo, "HAS TAKEN A FORK\n", 0);
+		ft_log(philo, "HAS TAKEN A FORK", 0);
 	}
 	else
 	{
 		pthread_mutex_lock(philo->mutex_rfork);
-		ft_log(philo, "HAS TAKEN A FORK\n", 0);
+		ft_log(philo, "HAS TAKEN A FORK", 0);
 		pthread_mutex_lock(philo->mutex_lfork);
-		ft_log(philo, "HAS TAKEN A FORK\n", 0);
+		ft_log(philo, "HAS TAKEN A FORK", 0);
 	}
 	if (ft_sleep(philo->input->time_to_eat, philo) == 1)
 		return (1);
+	philo->last_meal = get_time();
 	pthread_mutex_unlock(philo->mutex_rfork);
 	pthread_mutex_unlock(philo->mutex_lfork);
 	return (0);
@@ -55,5 +56,7 @@ void	*routine(void *arg)
 		if (think(philo) == 1)
 			break ;
 	}
+	pthread_mutex_unlock(philo->mutex_lfork);
+	pthread_mutex_unlock(philo->mutex_rfork);
 	return (NULL);
 }
