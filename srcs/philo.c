@@ -76,7 +76,7 @@ int		fill_philosophers(t_input *input, t_philo *philo, int i)
 	{
 		philo[i].id = i + 1;
 		philo[i].death = philo[0].death;
-		philo[i].mutex_waiter = philo[0].mutex_waiter;
+		philo[i].mutex_end = philo[0].mutex_end;
 		philo[i].mutex_death = philo[0].mutex_death;
 		philo[i].mutex_print = philo[0].mutex_print;
 		philo[i].mutex_lfork = philo[(i + 1) % input->num_of_philo].mutex_rfork;
@@ -114,13 +114,13 @@ t_philo	*create_philosopher(t_input *input)
 
 	philo = (t_philo *) malloc(input->num_of_philo * sizeof(t_philo));
 	philo->death = (int *) malloc(sizeof(int));
-	philo->mutex_waiter = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
+	philo->mutex_end = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
 	philo->mutex_death = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
 	philo->mutex_print = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
-	if (philo->death == NULL || philo->mutex_waiter == NULL
+	if (philo->death == NULL || philo->mutex_end == NULL
 		|| philo->mutex_death == NULL || philo->mutex_print == NULL)
 		return (NULL);
-	if (pthread_mutex_init(philo->mutex_waiter, NULL))
+	if (pthread_mutex_init(philo->mutex_end, NULL))
 		return (NULL);
 	if (pthread_mutex_init(philo->mutex_death, NULL))
 		return (NULL);

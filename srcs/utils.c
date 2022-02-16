@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:44 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/16 12:35:37 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/16 13:42:44 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,17 @@ int		ft_log(t_philo *philo, char *event, int exception)
 	ft_putnbr_buff(time ,&ptr);
 	ft_putstr_buff("ms philo" ,&ptr);
 	ft_putnbr_buff(philo->id, &ptr);
-	ft_putstr_buff(" ", &ptr);
-	ft_putstr_buff(event, &ptr);
+	if (event == NULL)
+	{
+		if (philo->state == eating)
+			ft_putstr_buff(" started eating", &ptr);
+		else if (philo->state == sleeping)
+			ft_putstr_buff(" started sleeping", &ptr);
+		else if (philo->state == thinking)
+			ft_putstr_buff(" started thinking", &ptr);
+	}
+	else
+		ft_putstr_buff(event, &ptr);
 	*ptr = '\0';
 	pthread_mutex_lock(philo->mutex_print);
 	ft_putendl_fd(buff, 1);

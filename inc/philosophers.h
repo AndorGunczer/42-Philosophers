@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:50 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/16 12:12:40 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/16 13:37:48 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@
 // 	double			start;
 // }	t_shared;
 
+typedef enum e_state {
+	eating = 1,
+	sleeping = 2,
+	thinking = 3,
+	dead = 4
+}	t_state;
+
 typedef struct s_input {
 	int				num_of_philo;
 	int				time_to_die;
@@ -52,12 +59,12 @@ typedef struct s_philo {
 	long			last_meal;
 	pthread_mutex_t	*mutex_lfork;
 	pthread_mutex_t *mutex_rfork;
-	pthread_mutex_t	*mutex_waiter;
+	pthread_mutex_t	*mutex_end;
 	pthread_mutex_t	*mutex_death;
 	pthread_mutex_t	*mutex_print;
 	t_input			*input;
 	pthread_t		philosopher;
-	// t_time			time;
+	t_state			state;
 }	t_philo;
 
 /*	death.c */
