@@ -62,6 +62,43 @@ int	is_num(char *str)
 	return (1);
 }
 
+int		destroy_mutexes(t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_destroy(philo[0].mutex_end);
+	pthread_mutex_destroy(philo[0].mutex_print);
+	pthread_mutex_destroy(philo[0].mutex_death);
+	if (philo[0].death != NULL)
+		free((void *)philo[0].death);
+	while (i < philo[0].input->num_of_philo)
+	{
+		pthread_mutex_destroy(philo[i].mutex_rfork);
+		i++;
+	}
+	return (0);
+}
+
+int		launch_philo(t_philo *philo, t_input *input)
+{
+	int	i;
+
+	i = 0;
+	while (i < input->num_of_philo)
+	{
+		pthread_create(&philo[i].philosopher, NULL, &routine, &philo[i]);
+		i++;
+	}
+	i = 0;
+	while (i < input->num_of_philo)
+	{
+		pthread_join(philo[i].philosopher, NULL);
+		i++;
+	}
+	return (0);
+}
+
 int		fill_philosophers(t_input *input, t_philo *philo, int i)
 {
 	while (i < input->num_of_philo)
@@ -85,25 +122,7 @@ int		fill_philosophers(t_input *input, t_philo *philo, int i)
 		philo[i].last_meal = get_time();
 		i++;
 	}
-	i = 0;//
-	// while (i < input->num_of_philo)
-	// {
-	// 	status_philo(philo[i]);
-	// 	i++;
-	// }
-	// i = 0;
-	
-	while (i < input->num_of_philo)
-	{
-		pthread_create(&philo[i].philosopher, NULL, &routine, &philo[i]);
-		i++;
-	}
-	i = 0;
-	while (i < input->num_of_philo)
-	{
-		pthread_join(philo[i].philosopher, NULL);
-		i++;
-	}
+	launch_philo(philo, input);
 	return (0);
 }
 

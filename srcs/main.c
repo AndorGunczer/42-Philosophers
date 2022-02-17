@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:29 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/16 07:35:46 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/17 09:47:22 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,21 @@ int	main(int argc, char **argv)
 {
 	int			i;
 	t_input		input;
+	t_philo		*philo;
 
 	i = 1;
 	if (check_input(argc, argv) == 1)
 		return (EXIT_FAILURE);
-	if (init_input(&input, argv) == 1) //free_all()
+	if (init_input(&input, argv) == 1)
 		return (EXIT_FAILURE);
-	if (create_philosopher(&input) == NULL) //free_all()
+	philo = create_philosopher(&input);
+	if (philo == NULL)
+	{
+		destroy_mutexes(philo);
+		free(philo);
 		return (EXIT_FAILURE);
+	}
+	destroy_mutexes(philo);
+	free(philo);
 	return (EXIT_SUCCESS);
 }

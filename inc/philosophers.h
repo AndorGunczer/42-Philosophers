@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:50 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/16 17:40:18 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/17 09:44:52 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int		one_philo(t_philo *philo);
 int		fill_philosophers(t_input *input, t_philo *philo, int i);
 t_philo	*create_philosopher(t_input *input);
 void	*routine(void *arg);
+int		destroy_mutexes(t_philo *philo);
 
 /*  main.c */
 
