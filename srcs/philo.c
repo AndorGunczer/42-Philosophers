@@ -68,13 +68,17 @@ int		destroy_mutexes(t_philo *philo)
 
 	i = 0;
 	pthread_mutex_destroy(philo[0].mutex_end);
+	free(philo[0].mutex_end);
 	pthread_mutex_destroy(philo[0].mutex_print);
+	free(philo[0].mutex_print);
 	pthread_mutex_destroy(philo[0].mutex_death);
+	free(philo[0].mutex_death);
 	if (philo[0].death != NULL)
 		free((void *)philo[0].death);
 	while (i < philo[0].input->num_of_philo)
 	{
 		pthread_mutex_destroy(philo[i].mutex_rfork);
+		free(philo[i].mutex_rfork);
 		i++;
 	}
 	return (0);
