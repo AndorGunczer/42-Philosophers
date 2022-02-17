@@ -1,16 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/17 12:59:08 by agunczer          #+#    #+#             */
+/*   Updated: 2022/02/17 13:00:30 by agunczer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/philosophers.h"
 
-// static void status_philo(t_philo philo)
-// {
-// 	printf("DATA CHECK PHILO %d\n", philo.id);
-// 	printf("\tphilo[i].waiter = %p\n", philo.mutex_waiter);
-// 	printf("\tphilo[i].death = %p\n", philo.mutex_death);
-// 	printf("\tphilo[i].print = %p\n", philo.mutex_print);
-// 	printf("\tphilo[i].lfork (borrow) = %p\n", philo.mutex_lfork);
-// 	printf("\tphilo[i].rfork (own) = %p\n", philo.mutex_rfork);
-// }
-
-static	int	ft_isspace(char c)
+static int	ft_isspace(char c)
 {
 	if (c == ' ')
 		return (1);
@@ -62,7 +64,7 @@ int	is_num(char *str)
 	return (1);
 }
 
-int		destroy_mutexes(t_philo *philo)
+int	destroy_mutexes(t_philo *philo)
 {
 	int	i;
 
@@ -84,7 +86,7 @@ int		destroy_mutexes(t_philo *philo)
 	return (0);
 }
 
-int		launch_philo(t_philo *philo, t_input *input)
+int	launch_philo(t_philo *philo, t_input *input)
 {
 	int	i;
 
@@ -103,11 +105,12 @@ int		launch_philo(t_philo *philo, t_input *input)
 	return (0);
 }
 
-int		fill_philosophers(t_input *input, t_philo *philo, int i)
+int	fill_philosophers(t_input *input, t_philo *philo, int i)
 {
 	while (i < input->num_of_philo)
 	{
-		philo[i].mutex_rfork = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
+		philo[i].mutex_rfork = (pthread_mutex_t *)
+		malloc(sizeof(pthread_mutex_t));
 		if (pthread_mutex_init(philo[i].mutex_rfork, NULL))
 			return (1);
 		i++;
@@ -132,7 +135,7 @@ int		fill_philosophers(t_input *input, t_philo *philo, int i)
 
 t_philo	*create_philosopher(t_input *input)
 {
-	t_philo *philo;
+	t_philo	*philo;
 	int		i;
 
 	philo = (t_philo *) malloc(input->num_of_philo * sizeof(t_philo));

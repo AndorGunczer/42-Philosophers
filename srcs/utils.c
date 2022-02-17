@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:44 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/17 09:40:05 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/17 12:54:45 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
 // 	gettimeofday(&(time->time_now_death), NULL);
 // }
 
-int		ft_log(t_philo *philo, char *event, int exception, char *ptr)
+int	ft_log(t_philo *philo, char *event, int exception, char *ptr)
 {
 	long	time;
 	char	buff[128];
 
 	ptr = buff;
 	time = get_time() - philo->input->start;
-	ft_putnbr_buff(time ,&ptr);
-	ft_putstr_buff("ms philo" ,&ptr);
+	ft_putnbr_buff(time, &ptr);
+	ft_putstr_buff("ms philo", &ptr);
 	ft_putnbr_buff(philo->id, &ptr);
 	if (event == NULL)
 	{
@@ -47,7 +47,7 @@ int		ft_log(t_philo *philo, char *event, int exception, char *ptr)
 	return (1);
 }
 
-int		one_philo(t_philo *philo)
+int	one_philo(t_philo *philo)
 {
 	long	start;
 	long	now;

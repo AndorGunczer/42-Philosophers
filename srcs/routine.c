@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/17 12:56:23 by agunczer          #+#    #+#             */
+/*   Updated: 2022/02/17 12:57:13 by agunczer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/philosophers.h"
 
-static int		eat(t_philo *philo)
+static int	eat(t_philo *philo)
 {
 	philo->state = eating;
 	if (philo->id % 2 == 0)
@@ -29,7 +41,7 @@ static int		eat(t_philo *philo)
 	return (0);
 }
 
-static int		ft_sleeping(t_philo *philo)
+static int	ft_sleeping(t_philo *philo)
 {
 	philo->state = sleeping;
 	if (ft_sleep(philo->input->time_to_sleep, philo) == 1)
@@ -37,7 +49,7 @@ static int		ft_sleeping(t_philo *philo)
 	return (0);
 }
 
-static int		think(t_philo *philo)
+static int	think(t_philo *philo)
 {
 	philo->state = thinking;
 	if (*(philo->death) == 1)
@@ -49,8 +61,9 @@ static int		think(t_philo *philo)
 
 void	*routine(void *arg)
 {
-    t_philo *philo = arg;
+	t_philo	*philo;
 
+	philo = arg;
 	if (philo->mutex_lfork == philo->mutex_rfork && one_philo(philo))
 		return (NULL);
 	if (philo->id % 2 == 0)

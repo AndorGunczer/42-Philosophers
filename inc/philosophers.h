@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:50 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/17 09:44:52 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/17 13:06:58 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,6 @@
 
 # define TAKEN 0
 # define AVAILABLE 1
-
-// typedef struct s_shared {
-// 	int				*fork;
-// 	int				death;
-// 	int				philo_id;
-// 	pthread_mutex_t	mutex_forks;
-// 	pthread_mutex_t	mutex_waiter;
-// 	pthread_mutex_t	mutex_death;
-// 	pthread_mutex_t	mutex_print;
-// 	struct timeval	timestamp;
-// 	double			start;
-// }	t_shared;
 
 typedef enum e_state {
 	eating = 1,
@@ -58,7 +46,7 @@ typedef struct s_philo {
 	volatile int	*death;
 	long			last_meal;
 	pthread_mutex_t	*mutex_lfork;
-	pthread_mutex_t *mutex_rfork;
+	pthread_mutex_t	*mutex_rfork;
 	pthread_mutex_t	*mutex_end;
 	pthread_mutex_t	*mutex_death;
 	pthread_mutex_t	*mutex_print;
@@ -85,8 +73,8 @@ int		destroy_mutexes(t_philo *philo);
 /*  main.c */
 
 /*	time.c */
-long		get_time();
-int			ft_sleep(long duration, t_philo *philo);
+long	get_time(void);
+int		ft_sleep(long duration, t_philo *philo);
 
 /*	string.c */
 void	ft_putchar_fd(char c, int fd);

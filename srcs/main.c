@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:29 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/17 09:47:22 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/17 13:04:33 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	check_input(int argc, char **argv)
 	num = 1;
 	if (argc < 5 || argc > 6)
 	{
-		// printf("\033[0;31m\tWrong number of Arguments\n\tPhilosophers quit.");
+		printf("\033[0;31m\tWrong number of Arguments\n\tPhilosophers quit.");
 		return (1);
 	}
 	if (is_num(argv[1]) == 0)
@@ -35,16 +35,8 @@ static int	check_input(int argc, char **argv)
 		if (is_num(argv[5]) == 0)
 			num = 0;
 	}
-	// if (num == 1)
-	// {
-	// 	printf("\033[0;33mBUCKLE UP FUCKERS, THE HUNGER GAMES ARE ABOUT TO BEGIN!\n\033[0m");
-	// 	sleep(4);
-	// }
 	if (num == 0)
-	{
-		// printf("\033[0;31m\tWrong argument type provided\n\tPhilosophers quit.");
 		return (1);
-	}
 	return (0);
 }
 

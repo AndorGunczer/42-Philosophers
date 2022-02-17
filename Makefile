@@ -5,8 +5,7 @@ Green			=		\033[0;32m					# Green
 
 NAME			=		philosophers
 
-SRCS			=		srcs/death.c \
-						srcs/string.c \
+SRCS			=		srcs/string.c \
 						srcs/main.c \
 						srcs/utils.c \
 						srcs/philo.c \
