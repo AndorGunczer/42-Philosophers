@@ -6,7 +6,7 @@
 /*   By: agunczer <agunczer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:09:44 by agunczer          #+#    #+#             */
-/*   Updated: 2022/02/17 13:51:56 by agunczer         ###   ########.fr       */
+/*   Updated: 2022/02/17 13:54:19 by agunczer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_log(t_philo *philo, char *event, int exception, char *ptr)
 	ptr = buff;
 	time = get_time() - philo->input->start;
 	ft_putnbr_buff(time, &ptr);
-	ft_putstr_buff("ms philo", &ptr);
+	ft_putstr_buff("ms philo ", &ptr);
 	ft_putnbr_buff(philo->id, &ptr);
 	if (event == NULL)
 	{
