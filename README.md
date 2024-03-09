@@ -26,9 +26,9 @@ times, the simulation stops. If not specified, the simulation stops when a
 philosopher dies.
 
 <b>Acceptance Tests:</b>
-    DONT'S:
-        Do not test with more than 200 philosophers.
-	    Do not test with time_to_die or time_to_eat or time_to_sleep set to values lower than 60 ms.
+    </br>DONT'S:
+        </br>Do not test with more than 200 philosophers.
+	    </br>Do not test with time_to_die or time_to_eat or time_to_sleep set to values lower than 60 ms.
 							
     Test I: 1 800 200 200 -> Expected: The philosopher should not eat and should die.
 	
