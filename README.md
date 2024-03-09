@@ -4,7 +4,7 @@ Solve the Philosophers problem via Multithreading in C.
 
 Steps to run the program:
     1. make
-    2. ./philosophers number_of_philosophers time_to_die time_to_eat time_to_sleep
+    2. Run the program: ./philosophers number_of_philosophers time_to_die time_to_eat time_to_sleep
 [number_of_times_each_philosopher_must_eat (optional)]
 
 Argument Description:
@@ -26,9 +26,9 @@ times, the simulation stops. If not specified, the simulation stops when a
 philosopher dies.
 
 Acceptance Tests:
-    1.Do not test with more than 200 philosophers.
-	
-    2. Do not test with time_to_die or time_to_eat or time_to_sleep set to values lower than 60 ms.
+    DONT'S:
+        Do not test with more than 200 philosophers.
+	    Do not test with time_to_die or time_to_eat or time_to_sleep set to values lower than 60 ms.
 							
     Test I: 1 800 200 200 -> Expected: The philosopher should not eat and should die.
 	
