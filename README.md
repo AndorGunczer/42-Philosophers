@@ -2,12 +2,12 @@
 
 Solve the Philosophers problem via Multithreading in C.
 
-Steps to run the program:
+<b>Steps to run the program:</b>
     1. make
     2. Run the program: ./philosophers number_of_philosophers time_to_die time_to_eat time_to_sleep
 [number_of_times_each_philosopher_must_eat (optional)]
 
-Argument Description:
+<b>Argument Description:</b>
 ◦ number_of_philosophers: The number of philosophers and also the number
 of forks.
 
@@ -25,7 +25,7 @@ philosophers have eaten at least number_of_times_each_philosopher_must_eat
 times, the simulation stops. If not specified, the simulation stops when a
 philosopher dies.
 
-Acceptance Tests:
+<b>Acceptance Tests:</b>
     DONT'S:
         Do not test with more than 200 philosophers.
 	    Do not test with time_to_die or time_to_eat or time_to_sleep set to values lower than 60 ms.
